@@ -10,7 +10,9 @@ const todos = [{
 	text : 'Sample todo 1'
 }, {
 	_id: new ObjectID(),
-	text: 'Sample todo 2'
+	text: 'Sample todo 2',
+	completed: true,
+	completedAt: 333
 }];
 
 //testing lifecycle method to remove all changes made in db
@@ -138,4 +140,42 @@ describe('DELETE /todos/:id', () => {
 		.expect(404)
 		.end(done);
 	})
+});
+
+describe('PATCH /todos/:id', (done)=>{
+	it('should update the todo', (done)=>{
+		var hexId =  todos[0]._id.toHexString();
+		var text = "testing case 1";
+		request(app)
+		.patch(`/todos/${hexId}`)
+		.send({
+			completed:true,
+			text: text
+		})
+		.expect(200)
+		.expect((res)=>{
+			expect(res.body.todo.text).toBe(text);
+			expect(res.body.todo.completed).toBe(true);
+			expect(typeof res.body.todo.completedAt).toBe('number')
+		})
+		.end(done);
+	});
+
+	it('should clear completedAt when the todo is not complete', (done)=>{
+		var hexId =  todos[0]._id.toHexString();
+		var text = "testing case 2";
+		request(app)
+		.patch(`/todos/${hexId}`)
+		.send({
+			completed:false,
+			text: text
+		})
+		.expect(200)
+		.expect((res)=>{
+			expect(res.body.todo.text).toBe(text);
+			expect(res.body.todo.completed).toBe(false);
+			expect(res.body.todo.completedAt).toBeNull();
+		})
+		.end(done);
+	});
 });
