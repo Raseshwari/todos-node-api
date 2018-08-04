@@ -1,3 +1,5 @@
+require('./config/config.js')
+
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -8,7 +10,7 @@ var {Todo} = require('./models/todos');
 var {User} = require('./models/user');
 
 var app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 app.use(bodyParser.json());
 
 // '/todo' forward slash for resource creation - creating a todo
@@ -89,7 +91,7 @@ app.patch('/todos/:id',(req,res)=>{
 		}
 
 		res.send({todo});
-		
+
 	}).catch((e)=>{
 		res.status(400).send();
 	})
