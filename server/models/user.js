@@ -32,6 +32,7 @@ var UserSchema = new mongoose.Schema({
 	}]
 });
 
+//everything added on methods becomes an instance method
 UserSchema.methods.toJSON = function(){
 	var user = this;
 	userObj = user.toObject();
@@ -48,6 +49,26 @@ UserSchema.methods.generateAuthToken = function () {
 
 	return user.save().then(()=>{
 		return token;
+	});
+};
+
+//everything added to statics changes to model methods
+UserSchema.statics.findByToken = function(token){
+	var User = this;
+	var decoded;
+
+	try{
+		decoded = jwt.verify(token,'secret123');
+	}catch(e){
+		return new Promise((resolve,reject)=>{
+			reject();
+		})
+	}
+
+	return User.findOne({
+		'_id': decoded._id,
+		'tokens.token' : token,
+		'tokens.access' : 'auth'
 	});
 };
 
