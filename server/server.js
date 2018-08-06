@@ -10,9 +10,11 @@ var {Todo} = require('./models/todos');
 var {User} = require('./models/user');
 var {authenticate} = require('./middleware/authenticate');
 
+
 var app = express();
 const port = process.env.PORT;
 app.use(bodyParser.json());
+
 
 // '/todo' forward slash for resource creation - creating a todo
 app.post('/todos', (req, res) => {
