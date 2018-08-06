@@ -1,7 +1,9 @@
 # todos-node-api
 This is a todo list API built using NodeJS, Express, MongoDB, Mongoose and JWT.
 By using this API registered users can perform CRUD operations on their todo-list. User authentication is done using JWT.
-The API is deployed on Heroku. Please find below different routes which can be used to consume data from the API.
+The API is deployed on Heroku. This API uses the MLab hosted on AWS EC2 instance as its API.
+
+Please find below different routes which can be used to consume data from the API.
 
 GET /todos - this route fetches the todos stored in the database
 https://todos-nodejs-api.herokuapp.com/todos
